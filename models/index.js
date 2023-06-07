@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const {MONGODB_URI} = process.env
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: false,
+});
 
 mongoose.connection
   .on('open', () => console.log('Your are connected to mongoose'))
