@@ -3,7 +3,7 @@ require('dotenv').config();
 const { PORT } = process.env;
 
 const express = require('express');
-const routes = require('./routes/index')
+// const routes = require('./routes/index')
 const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const app = express();
@@ -14,11 +14,12 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 
-app.use('/', routes);
+// app.use('/', routes);
 
 app.get('/', (req, res) => {
     res.send('Hello World');
   });
+
 
 
 app.post("/checkout", async (req, res) => {
@@ -46,6 +47,13 @@ app.post("/checkout", async (req, res) => {
         url: session.url
     }));
 });
+
+// const router = require('express').Router()
+const { testimonialCtrl } = require('./controllers')
+app.get('/testimonials', testimonialCtrl.getTestimonial)
+app.post('/testimonials', testimonialCtrl.createTestimonial)
+app.put('/testimonials/:id', testimonialCtrl.updateTestimonial)
+app.delete('/testimonials/:id', testimonialCtrl.deleteTestimonial)
 
 app.use((req, res) => {
     res.status(404).json({message: 'Not a proper route!'})
